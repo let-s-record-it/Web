@@ -9,17 +9,32 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.4.0",
+    "axios": "^1.7.9",
+    "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.6"
+    "react-icons": "^5.4.0",
+    "react-query": "^3.39.3",
+    "sass": "^1.83.4",
+    "sass-loader": "^16.0.4",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
-    "@eslint/eslintrc": "^3"
+    "msw": "^2.7.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5"
+  },
+  "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72",
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
