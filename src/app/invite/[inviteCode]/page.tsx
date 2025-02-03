@@ -12,10 +12,12 @@ type Props = {
 };
 
 type InviteInfo = {
-  calendarId: number;
-  calendarTitle: string;
-  ownerId: number;
-  ownerName: string;
+  data: {
+    calendarId: number;
+    calendarTitle: string;
+    ownerId: number;
+    ownerName: string;
+  };
 };
 
 export default function Invite({ params }: Props) {
@@ -49,8 +51,8 @@ export default function Invite({ params }: Props) {
 
   useEffect(() => {
     getInviteInfo().then((res) => {
-      setCalendarTitle(res.calendarTitle);
-      setOwnerName(res.ownerName);
+      setCalendarTitle(res.data.calendarTitle);
+      setOwnerName(res.data.ownerName);
     });
   }, []);
 
