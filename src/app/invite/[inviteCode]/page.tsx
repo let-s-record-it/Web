@@ -1,11 +1,27 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from '@/app/invite/_styles/invite.module.scss';
 import axios from 'axios';
 
-export default function Invite() {
+type Props = {
+  params: {
+    inviteCode: string;
+  };
+};
+
+type InviteInfo = {
+  calendarId: number;
+  calendarTitle: string;
+  ownerId: number;
+  ownerName: string;
+};
+
+export default function Invite({ params }: Props) {
+  const [calendarTitle, setCalendarTitle] = useState<string>('');
+  const [ownerName, setOwnerName] = useState<string>('');
+
   const appRun = () => {
     window.location.href = 'letsrecordit://invite';
   };
@@ -25,9 +41,16 @@ export default function Invite() {
     }
   };
 
+  const getInviteInfo = async (): Promise<InviteInfo> => {
+    return await axios.get(
+      `http://localhost:8080/api/v1/invite/info/${params.inviteCode}`
+    );
+  };
+
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/invite/info/123').then((res) => {
-      console.log(res);
+    getInviteInfo().then((res) => {
+      setCalendarTitle(res.calendarTitle);
+      setOwnerName(res.ownerName);
     });
   }, []);
 
