@@ -60,8 +60,8 @@ export default function Invite({ params }: Props) {
         <div className={styles.mainContainer}>
           <div className={styles.logo}>기록하자</div>
           <div className={styles.intro}>
-            워농농 님의
-            <div className={styles.title}>일반</div>
+            {`${ownerName} `} 님의
+            <div className={styles.title}>{calendarTitle}</div>
             캘린더
           </div>
           <div className={styles.login} onClick={() => onClickEnter()}>
