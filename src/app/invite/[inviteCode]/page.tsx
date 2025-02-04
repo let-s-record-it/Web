@@ -1,11 +1,29 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from '@/app/invite/_styles/invite.module.scss';
 import axios from 'axios';
 
-export default function Invite() {
+type Props = {
+  params: Promise<{
+    inviteCode: string;
+  }>;
+};
+
+type InviteInfo = {
+  data: {
+    calendarId: number;
+    calendarTitle: string;
+    ownerId: number;
+    ownerName: string;
+  };
+};
+
+export default function Invite({ params }: Props) {
+  const [calendarTitle, setCalendarTitle] = useState<string>('');
+  const [ownerName, setOwnerName] = useState<string>('');
+
   const appRun = () => {
     window.location.href = 'letsrecordit://invite';
   };
@@ -25,9 +43,17 @@ export default function Invite() {
     }
   };
 
+  const getInviteInfo = async (): Promise<InviteInfo> => {
+    const inviteCode = (await params).inviteCode;
+    return await axios.get(
+      `http://localhost:8080/api/v1/invite/info/${inviteCode}`
+    );
+  };
+
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/invite/info/123').then((res) => {
-      console.log(res);
+    getInviteInfo().then((res) => {
+      setCalendarTitle(res.data.calendarTitle);
+      setOwnerName(res.data.ownerName);
     });
   }, []);
 
@@ -37,8 +63,8 @@ export default function Invite() {
         <div className={styles.mainContainer}>
           <div className={styles.logo}>기록하자</div>
           <div className={styles.intro}>
-            워농농 님의
-            <div className={styles.title}>일반</div>
+            {`${ownerName} `} 님의
+            <div className={styles.title}>{calendarTitle}</div>
             캘린더
           </div>
           <div className={styles.login} onClick={() => onClickEnter()}>
