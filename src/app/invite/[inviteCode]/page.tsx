@@ -6,9 +6,9 @@ import styles from '@/app/invite/_styles/invite.module.scss';
 import axios from 'axios';
 
 type Props = {
-  params: {
+  params: Promise<{
     inviteCode: string;
-  };
+  }>;
 };
 
 type InviteInfo = {
@@ -44,8 +44,9 @@ export default function Invite({ params }: Props) {
   };
 
   const getInviteInfo = async (): Promise<InviteInfo> => {
+    const inviteCode = (await params).inviteCode;
     return await axios.get(
-      `http://localhost:8080/api/v1/invite/info/${params.inviteCode}`
+      `http://localhost:8080/api/v1/invite/info/${inviteCode}`
     );
   };
 
