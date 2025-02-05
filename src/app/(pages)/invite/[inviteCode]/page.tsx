@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import styles from '@/app/invite/_styles/invite.module.scss';
+import styles from '@/app/(pages)/invite/_styles/invite.module.scss';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   params: Promise<{
@@ -21,15 +22,16 @@ type InviteInfo = {
 };
 
 export default function Invite({ params }: Props) {
+  const router = useRouter();
   const [calendarTitle, setCalendarTitle] = useState<string>('');
   const [ownerName, setOwnerName] = useState<string>('');
 
   const appRun = () => {
-    window.location.href = 'letsrecordit://invite';
+    router.push('letsrecordit://invite');
   };
 
   const storeRun = () => {
-    window.location.href = 'https://play.google.com/store/apps';
+    router.push('https://play.google.com/store/apps');
   };
 
   const onClickEnter = () => {
@@ -44,9 +46,9 @@ export default function Invite({ params }: Props) {
   };
 
   const getInviteInfo = async (): Promise<InviteInfo> => {
-    const inviteCode = (await params).inviteCode;
+    const code = (await params).inviteCode;
     return await axios.get(
-      `http://localhost:8080/api/v1/invite/info/${inviteCode}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/invite/info/${code}`
     );
   };
 
@@ -67,12 +69,8 @@ export default function Invite({ params }: Props) {
             <div className={styles.title}>{calendarTitle}</div>
             캘린더
           </div>
-          <div className={styles.login} onClick={() => onClickEnter()}>
+          <div className={styles.enterButton} onClick={() => onClickEnter()}>
             참가하기
-          </div>
-          <div className={styles.loginWrap}>
-            로그인을 안하셨다면?
-            <div className={styles.loginButton}>로그인</div>
           </div>
         </div>
       </div>
