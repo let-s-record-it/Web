@@ -1,25 +1,24 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { LegacyRef, RefObject, useEffect, useRef, useState } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 import styles from '@/app/(pages)/_styles/allpage.module.scss';
 
 import { IoExitOutline } from 'react-icons/io5';
 import { ACCESS, REFRESH } from '@/app/_consts/const';
-import { getMember } from '@/app/(pages)/_lib/GetMember';
+import { getMember, Member } from '@/app/(pages)/_lib/GetMember';
 
 export default function PageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const router = useRouter();
   const path = usePathname();
   const params = useSearchParams();
   const current = path + (params.toString() ? `?${params.toString()}` : '');
   const [accessToken, setAccessToken] = useState('');
-  const [member, setMember] = useState(null);
+  const [member, setMember] = useState<Member | null>(null);
   const [openSettings, setOpenSettings] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
   const settingsRef = useRef<HTMLDivElement | null>(null);
@@ -41,7 +40,7 @@ export default function PageLayout({
 
   useEffect(() => {
     writeUrl();
-    setAccessToken(sessionStorage.getItem(ACCESS));
+    setAccessToken(sessionStorage.getItem(ACCESS) ?? '');
 
     if (sessionStorage.getItem(ACCESS)) {
       getMember().then((res) => {
@@ -90,9 +89,9 @@ export default function PageLayout({
                   className={styles.settings}
                   ref={settingsRef as RefObject<HTMLDivElement>}
                 >
-                  <div className={styles.memberName}>{member.name}</div>
+                  <div className={styles.memberName}>{member?.name}</div>
                   <div className={styles.memberJob}>
-                    {member.job === '' ? '기록러' : member.job}
+                    {!member?.job ? '기록러' : member?.job}
                   </div>
                   <div className={styles.logoutButton} onClick={() => logout()}>
                     로그아웃
