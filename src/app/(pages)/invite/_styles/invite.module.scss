@@ -1,4 +1,4 @@
-@import "@/app/_styles/global.module.scss";
+@use "@/app/_styles/global.module" as *;
 
 .wrap {
   width: 100%;
@@ -43,7 +43,7 @@
   margin: 0 8px;
 }
 
-.login {
+.enterButton {
   border-radius: 4px;
   background-color: $primary;
   height: 50px;

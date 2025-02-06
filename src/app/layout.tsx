@@ -3,6 +3,7 @@ import { Noto_Sans_KR } from 'next/font/google';
 import '@/app/_styles/reset.css';
 
 import styles from '@/app/_styles/global.module.scss';
+import { Suspense } from 'react';
 
 const notoSans = Noto_Sans_KR({
   subsets: ['latin'],
@@ -21,7 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={`${styles.wrap} ${notoSans.className}`}>{children}</body>
+      <body className={`${styles.wrap} ${notoSans.className}`}>
+        <Suspense fallback={null}>{children}</Suspense>
+      </body>
     </html>
   );
 }
