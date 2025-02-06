@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { ACCESS, REDIRECT, REFRESH } from '@/app/_consts/const';
 
@@ -25,9 +25,9 @@ export default function Auth() {
     );
     sessionStorage.setItem(ACCESS, res.data.accessToken);
     sessionStorage.setItem(REFRESH, res.data.refreshToken);
-    const redirect = sessionStorage.getItem(REDIRECT);
+    const redirectUrl = sessionStorage.getItem(REDIRECT);
     sessionStorage.removeItem(REDIRECT);
-    window.location.replace(redirect ?? '/');
+    redirect(redirectUrl ?? '/');
   };
 
   useEffect(() => {

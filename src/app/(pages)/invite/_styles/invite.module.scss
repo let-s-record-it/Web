@@ -1,4 +1,4 @@
-@import "../../../_styles/global.module";
+@use "@/app/_styles/global.module" as *;
 
 .wrap {
   width: 100%;

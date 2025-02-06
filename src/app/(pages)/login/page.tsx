@@ -9,7 +9,7 @@ export default function Login() {
   const params = useSearchParams();
 
   useEffect(() => {
-    const redirect = params.get(REDIRECT);
+    const redirect = params.get('redirect');
     if (redirect) {
       sessionStorage.setItem(REDIRECT, redirect);
     }
