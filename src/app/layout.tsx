@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
-import '@/app/_styles/reset.css';
+import Head from 'next/head';
 
+import '@/app/_styles/reset.css';
 import styles from '@/app/_styles/global.module.scss';
 import { Suspense } from 'react';
 
@@ -22,6 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
+      <Head>
+        <meta
+          http-equiv='Content-Security-Policy'
+          content='upgrade-insecure-requests'
+        />
+      </Head>
       <body className={`${styles.wrap} ${notoSans.className}`}>
         <Suspense fallback={null}>{children}</Suspense>
       </body>

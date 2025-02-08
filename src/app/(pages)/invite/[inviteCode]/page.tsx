@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import styles from '@/app/(pages)/invite/_styles/invite.module.scss';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { joinCalendar } from '@/app/(pages)/invite/[inviteCode]/_lib/JoinCalendar';
 
 type Props = {
   params: Promise<{
@@ -34,14 +35,23 @@ export default function Invite({ params }: Props) {
     router.push('https://play.google.com/store/apps');
   };
 
-  const onClickEnter = () => {
-    if (
-      window.confirm(
-        '캘린더에 참가하시겠습니까?\n앱이 없을 경우 스토어로 이동합니다'
-      )
-    ) {
-      setTimeout(storeRun, 1000);
-      setTimeout(appRun, 0);
+  const onClickEnter = async () => {
+    if (window.confirm('캘린더에 참가하시겠습니까?')) {
+      const code = (await params).inviteCode;
+      joinCalendar(code)
+        .then(() => {
+          if (
+            window.confirm(
+              '캘린더에 참가되었습니다.\n 앱으로 이동하시겠습니까?(미설치 시 스토어로 이동)'
+            )
+          ) {
+            setTimeout(storeRun, 1000);
+            setTimeout(appRun, 0);
+          }
+        })
+        .catch(() => {
+          window.alert('참가에 실패했습니다.');
+        });
     }
   };
 
