@@ -39,7 +39,7 @@ export default function Invite({ params }: Props) {
     if (window.confirm('캘린더에 참가하시겠습니까?')) {
       const code = (await params).inviteCode;
       joinCalendar(code)
-        .then((res) => {
+        .then(() => {
           if (
             window.confirm(
               '캘린더에 참가되었습니다.\n 앱으로 이동하시겠습니까?(미설치 시 스토어로 이동)'
@@ -49,7 +49,7 @@ export default function Invite({ params }: Props) {
             setTimeout(appRun, 0);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           window.alert('참가에 실패했습니다.');
         });
     }
